@@ -1,5 +1,6 @@
 /* helpful examples
   read-json.js
+  write-json.js
   sync-vs-async.js
 */
 
@@ -46,7 +47,7 @@ const readFileCallback = (err, fileText) => {
   log(6, parsedFileContents);
   assert.deepStrictEqual(parsedFileContents, objectToSave);
 
-  log(7, 'pass!');
+  log(7, '\033[32mpass!\x1b[0m');
 };
 
 // async
