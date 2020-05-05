@@ -17,7 +17,7 @@ fs.writeFileSync(FILE_PATH, '111111111111');
 
 log(1, 'first write is finished');
 
-const fsWriteCallback = (err) => {
+const fsWriteCallback = (err) => {re
   if (err) {
     log(3, err);
     return;
