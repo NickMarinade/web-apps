@@ -29,13 +29,13 @@ const objectToSave = {
   flamingo: undefined,
   completed: true,
   render: function () {
-    return this.todoText + ': ' + this.completed;
+    return this.todoText + ': ' + this.completed + this.flamingo;
   }
 };
 log(1, objectToSave);
 
 // https://javascript.info/json#json-stringify
-const stringToSave = _._(_, _, _);
+const stringToSave = JSON.stringify(objectToSave);
 log(2, stringToSave);
 
 // sync
@@ -52,11 +52,11 @@ const readFileCallback = (err, fileText) => {
   log(5, fileText);
   assert.strictEqual(fileText, stringToSave);
 
-  const parsedFileContents = JSON.parse(fileText);
+  const parsedFileContents = Object.assign(objectToSave, stringToSave);
   log(6, parsedFileContents);
   assert.deepStrictEqual(
     parsedFileContents,
-    { _ }
+     objectToSave 
   );
 
   log(7, '\033[32mpass!\x1b[0m');
