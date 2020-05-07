@@ -12,7 +12,13 @@ const fs = require('fs');
 // declare constants
 const START = Date.now();
 const SOURCE_PATH = __dirname + '/file.json';
-const SOURCE_TEXT = fs.readFileSync(SOURCE_PATH, 'utf-8');
+const callback = (err, content) => {
+  if (err) {
+    console.error(err);
+  }
+  return content;
+}
+const SOURCE_TEXT = fs.readFile(SOURCE_PATH, 'utf-8', callback);
 
 // declare logging function
 const log = (logId, value) => console.log(
@@ -33,10 +39,10 @@ log(1, targetFilePath)
 // refactor the code below to be asynchronous
 
 log(2, 'copying file ...');
-fs.copyFileSync(SOURCE_PATH, targetFilePath);
+fs.copyFile(SOURCE_PATH, targetFilePath, callback);
 
 log(3, 'reading target file ...');
-const copiedContent = fs.readFileSync(targetFilePath, 'utf-8');
+const copiedContent = fs.readFile(targetFilePath, 'utf-8', callback);
 
 log(4, copiedContent);
 

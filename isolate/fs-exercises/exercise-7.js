@@ -13,6 +13,12 @@ const fs = require('fs');
 const START = Date.now();
 const SOURCE_PATH = __dirname + '/file.txt';
 const ORIGINAL_TEXT = fs.readFileSync(SOURCE_PATH, 'utf-8');
+const callbackAppend = (err) => {
+  if (err) {
+    throw err;
+  }
+  
+}
 
 // declare logging function
 const log = (logId, value) => console.log(
@@ -31,14 +37,20 @@ log(0.2, ORIGINAL_TEXT);
 // 2. refactor to asynchronous
 
 log(1, 'appending to file ...');
-fs._(_, _);
+fs.appendFile(SOURCE_PATH, ORIGINAL_TEXT, callbackAppend );
 
 log(2, 'appending to file ...');
-fs._(_, _);
+fs.appendFile(SOURCE_PATH, ORIGINAL_TEXT, callbackAppend);
 
-log(1, 'reading file ...');
-const newText = fs._(SOURCE_PATH, _);
-log(4, newText);
+log(3, 'reading file ...');
+ fs.readFile(SOURCE_PATH, 'utf-8', (err, content) => {
+  if (err) {
+    console.error(err);
+  }
+  log(4, content)
+   assert.strictEqual(content, ORIGINAL_TEXT + ORIGINAL_TEXT + ORIGINAL_TEXT);
+   log(5, '\033[32mpass!\x1b[0m');
+});
 
-assert.strictEqual(newText, ORIGINAL_TEXT + ORIGINAL_TEXT + ORIGINAL_TEXT);
-log(5, '\033[32mpass!\x1b[0m');
+
+
