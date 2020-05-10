@@ -2,12 +2,6 @@
 
 const fs = require("fs");
 
-// A few libraries from npm to help us construct both useful and pretty logs
-
-// chalk will help us write colored text to the terminal without
-// having to mess around with terminal color codes (https://misc.flogisoft.com/bash/tip_colors_and_formatting)
-const chalk = require("chalk")
-
 // date wrangling is hard, and something you should never do by hand
 // use libraries, they'll always do a better job of this difficult problem
 // why is date manipulation considered a difficult problem?
@@ -36,7 +30,7 @@ module.exports = (req, res, next) => {
   // check here: https://date-fns.org/v2.12.0/docs/format to see how that
   // format string is interpreted. Don't be intimidated. As with most things,
   // you'll only need 20% of this 80% of the time
-  const formattedDatetime = datefns.format(currentDatetime,"yyyy-MM-dd hh:mm:ss.SSS aaaa");
+  const formattedDatetime = datefns.format(currentDatetime, "yyyy-MM-dd hh:mm:ss.SSS aaaa");
 
   // reminder: `req` holds the details of the incoming request
   // such as which HTTP method was used and which route is being accessed
@@ -45,13 +39,14 @@ module.exports = (req, res, next) => {
 
   // the terminal can understand color, but a text file can't, so we'll form
   // two messages, one for the terminal and one for the file
-  const coloredLogMessage = `[${chalk.blue(formattedDatetime)}] ${chalk.red(method)} ${url}`
+  // https://stackoverflow.com/questions/9781218/how-to-change-node-jss-console-font-color
+  const coloredLogMessage = `[\x1b[34m${formattedDatetime}\x1b[0m] \x1b[31m${method}\x1b[0m ${url}`;
   const plainLogMessage = `[${formattedDatetime}] ${method} ${url}`
 
   console.log(coloredLogMessage);
 
   // we're appending to the log file. what would happen if we used `fs.writeFile` instead?
-  fs.appendFile("request_logs.txt",  `${plainLogMessage}\n`, err => {
+  fs.appendFile("request_logs.txt", `${plainLogMessage}\n`, err => {
     if (err) {
       console.log(err);
     }
